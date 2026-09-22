@@ -1018,11 +1018,19 @@ lvgl:
 
         # ---- water ----
         - obj:
+            id: water_card
             styles: card
             x: 167
             y: 84
             width: 147
             height: 164
+            clickable: true
+            scrollable: false
+            on_long_press:
+              - homeassistant.action:
+                  action: button.press
+                  data:
+                    entity_id: button.henry_henry_water_meter_reset_water_since_reset
             widgets:
               - label:
                   styles: card_title
@@ -1036,13 +1044,14 @@ lvgl:
                   height: 106
                   min_value: 0
                   max_value: 100
-                  # REVERSE makes the indicator drain anti-clockwise.
-                  # 0% used = full arc; 100% used = empty arc.
+                  # REVERSE makes the blue remaining-water indicator drain anti-clockwise.
+                  # The value is percentage remaining: 100 = full blue, 0 = fully grey.
                   mode: REVERSE
                   value: 100
                   arc_width: 11
                   arc_color: 0x2A323C
                   adjustable: false
+                  clickable: false
                   indicator:
                     arc_width: 11
                     arc_color: 0x2FA8E0
@@ -2459,17 +2468,17 @@ sensor:
             format: "%.0f%%"
             args: [x]
 
-  # Water meter total: 0 L used = full tank, 35 L used = empty.
-  # The displayed number is the actual meter total; only the arc is clamped.
+  # Water used since reset: 0 L = full tank, 35 L = empty.
+  # The displayed number is the actual since-reset counter; only the arc is clamped.
   - platform: homeassistant
-    id: ha_water_total
-    entity_id: sensor.henry_water_meter_water_total
+    id: ha_water_since_reset
+    entity_id: sensor.henry_henry_water_meter_water_since_reset
     on_value:
       - lvgl.arc.update:
           id: water_arc
           value: !lambda |-
             if (std::isnan(x)) return 100;
-            return (int) roundf(clamp(x / 35.0f * 100.0f, 0.0f, 100.0f));
+            return (int) roundf(clamp((35.0f - x) / 35.0f * 100.0f, 0.0f, 100.0f));
       - lvgl.label.update:
           id: lbl_water
           text: !lambda |-

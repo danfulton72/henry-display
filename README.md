@@ -25,7 +25,7 @@ The display is primarily a Home Assistant front end: it presents battery, water,
 The home page is designed for a quick glance while living or travelling in the van.
 
 - **Battery** — state of charge, live shunt current and the inverter/AC-output switch.
-- **Water** — the centre value is the actual reading from `sensor.henry_water_meter_water_total` in litres. The blue ring represents estimated tank remaining capacity: **0 L used = full**, **35 L or more = empty**. The ring drains anti-clockwise and clamps at empty. The water-temperature reading below it is unchanged and comes from the separate temperature sensor.
+- **Water** — the centre value is the actual reading from `sensor.henry_henry_water_meter_water_since_reset` in litres. The blue ring represents estimated tank remaining capacity: **0 L used = full blue**, **35 L or more = fully grey/empty**. The blue portion drains anti-clockwise and clamps at empty. Long-pressing the WATER card calls `button.press` on `button.henry_henry_water_meter_reset_water_since_reset` to reset the since-reset counter. The water-temperature reading below it is unchanged and comes from the separate temperature sensor.
 - **Hot water** — tank temperature, element control, and a locally sampled two-hour temperature trace. ESPHome cannot read Home Assistant history directly, so the graph starts again after a display reboot.
 - **Refrigeration** — fridge/freezer current temperatures, refrigeration power, and links to the two setpoint pages.
 - **Diesel heater** — the large temperature is the climate target. The small marker on the slider is the live ambient temperature from `sensor.sunster_diesel_heater_ambient_temperature`. The switch controls the heater HVAC mode.
@@ -86,7 +86,8 @@ The complete display timing, RGB data pins, SPI pins and I²C pins are defined i
 | Battery state of charge | `sensor.renogy_shunt300_renogy_shunt_state_of_charge` |
 | Inverter/AC output | `switch.henry_bt_th_a58a7b70_output` |
 | AC charge current | `number.henry_bt_th_a58a7b70_charge_current` |
-| Water used | `sensor.henry_water_meter_water_total` |
+| Water used since reset | `sensor.henry_henry_water_meter_water_since_reset` |
+| Reset water since reset | `button.henry_henry_water_meter_reset_water_since_reset` |
 | Water temperature | `sensor.pro_check_universal_a0f2_temperature` |
 | Hot-water tank temperature | `sensor.henry_water_heater_tank_temperature` |
 | Hot-water target | `number.henry_water_heater_tank_temperature_target` |
@@ -102,7 +103,7 @@ The complete display timing, RGB data pins, SPI pins and I²C pins are defined i
 
 ## Water gauge behaviour
 
-The water meter is treated as a **usage counter for a roughly 35 L tank**, rather than as a direct level sensor.
+The water meter is treated as a **since-reset usage counter for a roughly 35 L tank**, rather than as a direct level sensor. Long-press the WATER card to reset the counter after refilling the tank.
 
 | Meter total | Ring |
 | ---: | --- |
@@ -112,7 +113,7 @@ The water meter is treated as a **usage counter for a roughly 35 L tank**, rathe
 | 26.25 L | 25% remaining |
 | 35 L or more | Empty |
 
-The centre of the gauge always shows the actual meter total, even above 35 L; only the ring is clamped. This assumes the water-meter total is reset to 0 when starting with a full tank.
+The centre of the gauge always shows the actual since-reset total, even above 35 L; only the ring is clamped. The active blue arc represents water remaining, so it shrinks to reveal the grey track as water is used. Long-pressing the WATER card resets the Home Assistant since-reset counter to 0 after a refill.
 
 ## Building and flashing
 
