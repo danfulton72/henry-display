@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+<style>
+  .bg{fill:#0E1116}.card{fill:#1A2028}.tile{fill:#232C38}.track{fill:none;stroke:#2A323C}
+  .white{fill:#fff}.muted{fill:#7C8794}.muted2{fill:#9AA5B1}.caption{fill:#5A646F}
+  .blue{fill:#2FA8E0}.green{fill:#35C759}.orange{fill:#FF9F0A}.hot{fill:#FF7A45}
+  .t{font-family:Arial,Helvetica,sans-serif}.b{font-weight:700}
+</style><rect class="bg" width="480" height="480"/><text class="t muted b" x="20" y="36" font-size="18" text-anchor="start">FREEZER SETPOINT</text><circle cx="240" cy="220" r="125" fill="none" stroke="#2A323C" stroke-width="11" stroke-dasharray="589.0486225480862 196.34954084936203" transform="rotate(135 240 220)"/><circle cx="240" cy="220" r="125" fill="none" stroke="#7FC5F5" stroke-width="11" stroke-linecap="round" stroke-dasharray="117.80972450961724 667.588438887831" transform="rotate(135 240 220)"/><text class="t white b" x="240" y="205" font-size="48" text-anchor="middle">-16°</text><text class="t muted" x="240" y="264" font-size="18" text-anchor="middle">now -15°</text><rect class="card" x="10" y="404" width="460" height="62" rx="14"/><text class="t white b" x="240" y="443" font-size="22" text-anchor="middle">Back</text></svg>

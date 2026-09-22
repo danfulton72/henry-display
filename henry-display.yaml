@@ -1036,7 +1036,10 @@ lvgl:
                   height: 106
                   min_value: 0
                   max_value: 100
-                  value: 0
+                  # REVERSE makes the indicator drain anti-clockwise.
+                  # 0% used = full arc; 100% used = empty arc.
+                  mode: REVERSE
+                  value: 100
                   arc_width: 11
                   arc_color: 0x2A323C
                   adjustable: false
@@ -1048,7 +1051,7 @@ lvgl:
                   styles: value_big
                   align: CENTER
                   y: -2
-                  text: "--%"
+                  text: "--L"
               - label:
                   id: lbl_water_temp
                   align: BOTTOM_MID
@@ -2456,20 +2459,24 @@ sensor:
             format: "%.0f%%"
             args: [x]
 
+  # Water meter total: 0 L used = full tank, 35 L used = empty.
+  # The displayed number is the actual meter total; only the arc is clamped.
   - platform: homeassistant
-    id: ha_water_level
-    entity_id: sensor.pro_check_universal_a0f2_tank_level
-    filters:
-      - lambda: "return clamp(x / 140.0f * 100.0f, 0.0f, 100.0f);"
+    id: ha_water_total
+    entity_id: sensor.henry_water_meter_water_total
     on_value:
       - lvgl.arc.update:
           id: water_arc
-          value: !lambda "return x;"
+          value: !lambda |-
+            if (std::isnan(x)) return 100;
+            return (int) roundf(clamp(x / 35.0f * 100.0f, 0.0f, 100.0f));
       - lvgl.label.update:
           id: lbl_water
-          text:
-            format: "%.0f%%"
-            args: [x]
+          text: !lambda |-
+            if (std::isnan(x)) return std::string("--L");
+            char buf[16];
+            snprintf(buf, sizeof(buf), "%.1fL", x);
+            return std::string(buf);
 
   - platform: homeassistant
     id: ha_water_temp
@@ -2593,8 +2600,7 @@ sensor:
 
   - platform: homeassistant
     id: ha_heater_current
-    entity_id: climate.sunster_diesel_heater_heater
-    attribute: current_temperature
+    entity_id: sensor.sunster_diesel_heater_ambient_temperature
     on_value:
       - lvgl.label.update:
           id: lbl_heat_now

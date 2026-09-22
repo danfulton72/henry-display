@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+<style>
+  .bg{fill:#0E1116}.card{fill:#1A2028}.tile{fill:#232C38}.track{fill:none;stroke:#2A323C}
+  .white{fill:#fff}.muted{fill:#7C8794}.muted2{fill:#9AA5B1}.caption{fill:#5A646F}
+  .blue{fill:#2FA8E0}.green{fill:#35C759}.orange{fill:#FF9F0A}.hot{fill:#FF7A45}
+  .t{font-family:Arial,Helvetica,sans-serif}.b{font-weight:700}
+</style><rect class="bg" width="480" height="480"/><rect x="0" y="0" width="480" height="480" fill="#000" opacity=".45"/><rect class="card" x="50" y="140" width="380" height="200" rx="14"/><text class="t white b" x="70" y="180" font-size="22" text-anchor="start">Turn AC output off?</text><text class="t muted2" x="70" y="218" font-size="18" text-anchor="start">This cuts mains power in the van.</text><rect class="tile" x="70" y="270" width="150" height="48" rx="10"/><text class="t white b" x="145" y="301" font-size="18" text-anchor="middle">Cancel</text><rect x="260" y="270" width="150" height="48" rx="10" fill="#C2452D"/><text class="t white b" x="335" y="301" font-size="18" text-anchor="middle">Turn off</text></svg>
